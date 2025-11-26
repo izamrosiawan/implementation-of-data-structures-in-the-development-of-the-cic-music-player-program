@@ -38,6 +38,14 @@ class PageUser(ctk.CTkFrame):
         super().__init__(parent)
         ctk.CTkButton(self, text="Kembali", width=100, command=lambda: controller.show_frame(PageMenu)).place(x=10, y=10)
 
+        search_frame = ctk.CTkFrame(self, width=340, height=40, corner_radius=10)
+        search_frame.place(x=360, y=10)
+        ctk.CTkLabel(search_frame, text="Cari:", font=("Arial", 12)).place(x=10, y=8)
+        self.search_entry = ctk.CTkEntry(search_frame, width=220, placeholder_text="Cari judul/artis...")
+        self.search_entry.place(x=50, y=8)
+        self.search_entry.bind("<Return>", lambda e: self.search_songs(controller))
+        ctk.CTkButton(search_frame, text="🔍", width=40, command=lambda: self.search_songs(controller)).place(x=280, y=8)
+
         self.frame_playlist = ctk.CTkFrame(self, width=340, height=500, corner_radius=10)
         self.frame_playlist.place(x=10, y=60)
         ctk.CTkLabel(self.frame_playlist, text="Playlist", font=("Arial", 14, "bold")).place(x=10, y=10)
@@ -91,6 +99,35 @@ class PageUser(ctk.CTkFrame):
                     song = song.next
                 alb = alb.next
             art = art.next
+        self.library_box.configure(state="disabled")
+        self.selected_index = None
+
+    def search_songs(self, controller):
+        keyword = self.search_entry.get().strip().lower()
+        if not keyword:
+            self.refresh_library(controller)
+            return
+        
+        self.library_box.configure(state="normal")
+        self.library_box.delete("1.0", "end")
+        self.library_items = []
+        art = controller.player.library.artists_head
+        found_count = 0
+        while art:
+            alb = art.albums_head
+            while alb:
+                song = alb.songs_head
+                while song:
+                    if keyword in song.title.lower() or keyword in art.artist_name.lower() or keyword in alb.album_name.lower():
+                        self.library_box.insert("end", f"{song.id}. {song.title} — {song.duration} ({art.artist_name} / {alb.album_name})\n")
+                        self.library_items.append(song)
+                        found_count += 1
+                    song = song.next
+                alb = alb.next
+            art = art.next
+        
+        if found_count == 0:
+            self.library_box.insert("end", "Tidak ada hasil ditemukan.\n")
         self.library_box.configure(state="disabled")
         self.selected_index = None
 
