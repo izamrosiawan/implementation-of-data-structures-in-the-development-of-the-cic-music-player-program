@@ -3,10 +3,7 @@ import customtkinter as ctk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
-
-# ============================================================
-# APP UTAMA
-# ============================================================
+# App utama
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -32,37 +29,31 @@ class App(ctk.CTk):
         frame.tkraise()
 
 
-# ============================================================
-# PAGE 1 — MENU (User atau Admin)
-# ============================================================
+# Halaman 1 — Menu (Pengguna / Admin)
 class PageMenu(ctk.CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent)
 
         ctk.CTkLabel(self, text="Selamat Datang di CIC Player",
-                     font=("Arial", 22, "bold")).pack(pady=50)
+                    font=("Arial", 22, "bold")).pack(pady=50)
 
         ctk.CTkButton(self, text="Masuk sebagai User",
-                      width=300, command=lambda: controller.show_frame(PageUser)).pack(pady=20)
+                    width=300, command=lambda: controller.show_frame(PageUser)).pack(pady=20)
 
         ctk.CTkButton(self, text="Masuk sebagai Admin",
-                      width=300, command=lambda: controller.show_frame(PageAdmin)).pack(pady=20)
+                    width=300, command=lambda: controller.show_frame(PageAdmin)).pack(pady=20)
 
 
-# ============================================================
-# PAGE 2 — HALAMAN USER (Fixed version)
-# ============================================================
+# Halaman 2 — Halaman Pengguna (versi perbaikan)
 class PageUser(ctk.CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent)
 
-        # tombol kembali
+    # Tombol 'Kembali' untuk kembali ke menu utama
         ctk.CTkButton(self, text="Kembali",
-                      width=100, command=lambda: controller.show_frame(PageMenu)).place(x=10, y=10)
+                    width=100, command=lambda: controller.show_frame(PageMenu)).place(x=10, y=10)
 
-        # ====================================================
-        # KIRI — PLAYLIST
-        # ====================================================
+    # Kiri — Playlist (daftar putar pengguna)
         self.frame_playlist = ctk.CTkFrame(self, width=250, height=500, corner_radius=10)
         self.frame_playlist.place(x=10, y=60)
 
@@ -70,9 +61,7 @@ class PageUser(ctk.CTkFrame):
         self.playlist_box = ctk.CTkTextbox(self.frame_playlist, width=230, height=440)
         self.playlist_box.place(x=10, y=50)
 
-        # ====================================================
-        # TENGAH — DAFTAR LAGU
-        # ====================================================
+    # Tengah — Daftar lagu (koleksi)
         self.frame_library = ctk.CTkFrame(self, width=350, height=500, corner_radius=10)
         self.frame_library.place(x=270, y=60)
 
@@ -80,9 +69,7 @@ class PageUser(ctk.CTkFrame):
         self.library_box = ctk.CTkTextbox(self.frame_library, width=330, height=440)
         self.library_box.place(x=10, y=50)
 
-        # ====================================================
-        # KANAN — INFO LAGU
-        # ====================================================
+    # Kanan — Info lagu / album (detail)
         self.frame_info = ctk.CTkFrame(self, width=450, height=500, corner_radius=10)
         self.frame_info.place(x=630, y=60)
 
@@ -90,9 +77,7 @@ class PageUser(ctk.CTkFrame):
         self.info_label = ctk.CTkLabel(self.frame_info, text="Tidak ada lagu diputar", anchor="w")
         self.info_label.place(x=10, y=50)
 
-        # ====================================================
-        # BAWAH — CONTROL
-        # ====================================================
+    # Bawah — Kontrol pemutar
         self.frame_control = ctk.CTkFrame(self, width=1070, height=70)
         self.frame_control.place(x=10, y=570)
 
@@ -107,9 +92,7 @@ class PageUser(ctk.CTkFrame):
         ctk.CTkButton(control_btns, text="Previous", width=120).grid(row=0, column=2, padx=10)
 
 
-# ============================================================
-# PAGE 3 — HALAMAN ADMIN (Fixed)
-# ============================================================
+# Halaman 3 — Halaman Admin (versi perbaikan)
 class PageAdmin(ctk.CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -117,24 +100,19 @@ class PageAdmin(ctk.CTkFrame):
         ctk.CTkButton(self, text="Kembali",
                     width=100, command=lambda: controller.show_frame(PageMenu)).place(x=10, y=10)
 
-        # ====================================================
-        # KIRI — ADMIN MENU
-        # ====================================================
+    # Kiri — Menu Admin (aksi pengelolaan lagu)
         self.frame_admin_menu = ctk.CTkFrame(self, width=250, height=500, corner_radius=10)
         self.frame_admin_menu.place(x=10, y=60)
 
         ctk.CTkLabel(self.frame_admin_menu, text="Admin Menu", font=("Arial", 14, "bold")).place(x=10, y=10)
 
-        # Tombol admin
+    # Tombol operasi admin (tambah / hapus / update / lihat)
         ctk.CTkButton(self.frame_admin_menu, text="Tambah Lagu", width=200).place(x=25, y=60)
         ctk.CTkButton(self.frame_admin_menu, text="Hapus Lagu", width=200).place(x=25, y=110)
         ctk.CTkButton(self.frame_admin_menu, text="Update Lagu", width=200).place(x=25, y=160)
-        ctk.CTkButton(self.frame_admin_menu, text="Lihat Semua Lagu", width=200).place(x=25, y=210)
 
 
-        # ====================================================
-        # TENGAH — DAFTAR LAGU (Library)
-        # ====================================================
+    # Tengah — Daftar lagu (Library)
         self.frame_library = ctk.CTkFrame(self, width=350, height=500, corner_radius=10)
         self.frame_library.place(x=270, y=60)
 
@@ -143,9 +121,7 @@ class PageAdmin(ctk.CTkFrame):
         self.library_box.place(x=10, y=50)
 
 
-        # ====================================================
-        # KANAN – DETAIL / FORM ADMIN
-        # ====================================================
+    # Kanan — Detail lagu dan form untuk admin
         self.frame_detail = ctk.CTkFrame(self, width=450, height=500, corner_radius=10)
         self.frame_detail.place(x=630, y=60)
 
@@ -156,9 +132,7 @@ class PageAdmin(ctk.CTkFrame):
         self.detail_box.place(x=10, y=50)
 
 
-        # ====================================================
-        # BAWAH — TOMBOL ADMIN CONTROL
-        # ====================================================
+    # Bawah — Panel kontrol admin
         self.frame_control = ctk.CTkFrame(self, width=1070, height=70)
         self.frame_control.place(x=10, y=570)
 
@@ -173,8 +147,6 @@ class PageAdmin(ctk.CTkFrame):
 
 
 
-# ============================================================
-# RUN APP
-# ============================================================
+# Jalankan aplikasi
 app = App()
 app.mainloop()
