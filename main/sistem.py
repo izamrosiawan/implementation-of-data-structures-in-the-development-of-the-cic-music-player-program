@@ -172,12 +172,10 @@ class MusicPlayer:
         return "Tidak ada musik yang sedang diputar"
 
     def set_volume(self, volume):
-        """Set volume antara 0.0 - 1.0"""
         self.volume = max(0.0, min(1.0, volume))
         pygame.mixer.music.set_volume(self.volume)
         return f"🔊 Volume: {int(self.volume * 100)}%"
 
     def get_is_playing(self):
-        """Cek apakah musik sedang diputar"""
         return pygame.mixer.music.get_busy() and not self.is_paused
 
