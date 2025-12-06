@@ -22,17 +22,11 @@ class AlbumNode:
     def __init__(self, album_name, year=None):
         self.album_name = album_name
         self.year = year
-        self.songs_head = None
+        self.songs = []
         self.next = None
     
     def add_song(self, song):
-        if not self.songs_head:
-            self.songs_head = song
-        else:
-            curr = self.songs_head
-            while curr.next:
-                curr = curr.next
-            curr.next = song
+        self.songs.append(song)
 
 
 class ArtistNode:

@@ -128,71 +128,80 @@ class PageUser(ctk.CTkFrame):
         self.status_label.pack(pady=15)
 
         # Bottom: Player Controls (Fixed at bottom)
-        self.frame_control = ctk.CTkFrame(self, height=100, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
+        self.frame_control = ctk.CTkFrame(self, height=90, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
         self.frame_control.pack(side="bottom", fill="x", padx=0, pady=0)
         
-        # Seekbar di paling atas
-        seekbar_container = ctk.CTkFrame(self.frame_control, fg_color="transparent", height=30)
-        seekbar_container.pack(fill="x", padx=20, pady=(8, 0))
+        # Container utama dengan 3 kolom: left, center, right
+        main_container = ctk.CTkFrame(self.frame_control, fg_color="transparent")
+        main_container.pack(fill="both", expand=True, padx=15, pady=8)
+        
+        # LEFT: Now Playing Info
+        left_frame = ctk.CTkFrame(main_container, fg_color="transparent", width=250)
+        left_frame.pack(side="left", fill="y")
+        left_frame.pack_propagate(False)
+        
+        self.current_label = ctk.CTkLabel(left_frame, text="Tidak ada lagu", 
+                                        font=("Arial", 11), text_color=SPOTIFY_WHITE, 
+                                        anchor="w", wraplength=240)
+        self.current_label.pack(anchor="w", pady=(8, 0))
+        
+        # CENTER: Controls (Buttons + Seekbar)
+        center_frame = ctk.CTkFrame(main_container, fg_color="transparent")
+        center_frame.pack(side="left", fill="both", expand=True, padx=20)
+        
+        # Control buttons di tengah
+        control_btns = ctk.CTkFrame(center_frame, fg_color="transparent")
+        control_btns.pack(pady=(2, 3))
+        
+        ctk.CTkButton(control_btns, text="⏮", width=32, height=32, corner_radius=16,
+                    command=lambda: self.previous_song(controller), 
+                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
+                    text_color=SPOTIFY_WHITE, font=("Arial", 14)).pack(side="left", padx=8)
+        
+        self.play_pause_btn = ctk.CTkButton(control_btns, text="▶", width=36, height=36, 
+                    corner_radius=18, command=lambda: self.toggle_play_pause(controller), 
+                    fg_color=SPOTIFY_WHITE, hover_color="#b3b3b3",
+                    text_color=SPOTIFY_BLACK, font=("Arial", 14, "bold"))
+        self.play_pause_btn.pack(side="left", padx=8)
+        
+        ctk.CTkButton(control_btns, text="⏭", width=32, height=32, corner_radius=16,
+                    command=lambda: self.next_song(controller), 
+                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
+                    text_color=SPOTIFY_WHITE, font=("Arial", 14)).pack(side="left", padx=8)
+        
+        self.is_playing_state = False
+        
+        # Seekbar container di bawah buttons
+        seekbar_container = ctk.CTkFrame(center_frame, fg_color="transparent")
+        seekbar_container.pack(fill="x", pady=(0, 0))
         
         self.time_current = ctk.CTkLabel(seekbar_container, text="0:00", 
-                                        font=("Arial", 10), text_color=SPOTIFY_LIGHT_GRAY)
+                                        font=("Arial", 9), text_color=SPOTIFY_LIGHT_GRAY, width=35)
         self.time_current.pack(side="left", padx=(0, 8))
         
         self.seekbar = ctk.CTkSlider(seekbar_container, from_=0, to=100,
                                     fg_color="#4d4d4d", progress_color=SPOTIFY_WHITE,
                                     button_color=SPOTIFY_WHITE, button_hover_color="#b3b3b3",
-                                    height=4, button_length=12,
+                                    height=4, button_length=10,
                                     command=lambda v: self.on_seek(controller, v))
         self.seekbar.set(0)
         self.seekbar.pack(side="left", fill="x", expand=True)
         
         self.time_total = ctk.CTkLabel(seekbar_container, text="0:00", 
-                                      font=("Arial", 10), text_color=SPOTIFY_LIGHT_GRAY)
+                                      font=("Arial", 9), text_color=SPOTIFY_LIGHT_GRAY, width=35)
         self.time_total.pack(side="left", padx=(8, 0))
         
-        # Container untuk control buttons dan volume
-        controls_main = ctk.CTkFrame(self.frame_control, fg_color="transparent")
-        controls_main.pack(fill="x", padx=20, pady=(5, 8))
+        # RIGHT: Volume Control
+        right_frame = ctk.CTkFrame(main_container, fg_color="transparent", width=150)
+        right_frame.pack(side="right", fill="y")
+        right_frame.pack_propagate(False)
         
-        # Left: Now Playing
-        self.current_label = ctk.CTkLabel(controls_main, text="▶️ Tidak ada lagu", 
-                                        font=("Arial", 11), text_color=SPOTIFY_WHITE, anchor="w")
-        self.current_label.pack(side="left", padx=(0, 20))
+        volume_container = ctk.CTkFrame(right_frame, fg_color="transparent")
+        volume_container.pack(side="right", pady=8)
         
-        # Center: Control Buttons
-        control_btns = ctk.CTkFrame(controls_main, fg_color="transparent")
-        control_btns.pack(side="left", expand=True)
-        
-        # Center: Control Buttons
-        control_btns = ctk.CTkFrame(controls_main, fg_color="transparent")
-        control_btns.pack(side="left", expand=True)
-        
-        ctk.CTkButton(control_btns, text="⏮", width=35, height=35, corner_radius=20,
-                    command=lambda: self.previous_song(controller), 
-                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
-                    text_color=SPOTIFY_WHITE, font=("Arial", 16)).pack(side="left", padx=5)
-        
-        self.play_pause_btn = ctk.CTkButton(control_btns, text="▶", width=38, height=38, 
-                    corner_radius=20, command=lambda: self.toggle_play_pause(controller), 
-                    fg_color=SPOTIFY_WHITE, hover_color="#b3b3b3",
-                    text_color=SPOTIFY_BLACK, font=("Arial", 16, "bold"))
-        self.play_pause_btn.pack(side="left", padx=5)
-        
-        ctk.CTkButton(control_btns, text="⏭", width=35, height=35, corner_radius=20,
-                    command=lambda: self.next_song(controller), 
-                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
-                    text_color=SPOTIFY_WHITE, font=("Arial", 16)).pack(side="left", padx=5)
-        
-        self.is_playing_state = False
-        
-        # Right: Volume Control
-        volume_frame = ctk.CTkFrame(controls_main, fg_color="transparent")
-        volume_frame.pack(side="right")
-        
-        ctk.CTkLabel(volume_frame, text="🔊", font=("Arial", 14)).pack(side="left", padx=5)
+        ctk.CTkLabel(volume_container, text="🔊", font=("Arial", 13)).pack(side="left", padx=5)
         self.volume_slider = ctk.CTkSlider(
-            volume_frame, from_=0, to=100, width=100,
+            volume_container, from_=0, to=100, width=90,
             command=lambda v: self.change_volume(controller, v),
             button_color=SPOTIFY_WHITE, 
             button_hover_color="#b3b3b3",
