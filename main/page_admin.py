@@ -27,7 +27,7 @@ class PageAdmin(ctk.CTkFrame):
         content.pack(fill="both", expand=True, padx=15, pady=(10, 20))
 
         # Left: Library Display
-        self.frame_library = ctk.CTkFrame(content, width=580, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_library = ctk.CTkFrame(content, width=720, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
         self.frame_library.pack(side="left", fill="both", expand=True, padx=(0, 8))
         
         library_header = ctk.CTkFrame(self.frame_library, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
@@ -41,8 +41,7 @@ class PageAdmin(ctk.CTkFrame):
         self.admin_library_box.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         self.refresh_admin_library(controller)
 
-        # Right: Form
-        self.frame_detail = ctk.CTkFrame(content, width=580, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_detail = ctk.CTkFrame(content, width=440, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
         self.frame_detail.pack(side="left", fill="both", expand=True, padx=(8, 0))
         
         form_header = ctk.CTkFrame(self.frame_detail, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)

@@ -27,9 +27,8 @@ class PageUser(ctk.CTkFrame):
         self.search_entry.place(x=400, y=12)
         self.search_entry.bind("<Return>", lambda e: self.search_songs(controller))
         
-        # Main content area
         content = ctk.CTkFrame(self, fg_color=SPOTIFY_BLACK)
-        content.pack(fill="both", expand=True, padx=15, pady=(10, 100))
+        content.pack(fill="both", expand=True, padx=15, pady=(10, 10))
         
         # Left: Playlist
         self.frame_playlist = ctk.CTkFrame(content, width=380, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
@@ -128,13 +127,32 @@ class PageUser(ctk.CTkFrame):
         self.status_label.pack(pady=15)
 
         # Bottom: Player Controls (Fixed at bottom)
-        self.frame_control = ctk.CTkFrame(self, height=90, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
+        self.frame_control = ctk.CTkFrame(self, height=140, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
         self.frame_control.pack(side="bottom", fill="x", padx=0, pady=0)
         
         # Now Playing Label
         self.current_label = ctk.CTkLabel(self.frame_control, text="▶️ Tidak ada lagu yang diputar", 
                                         font=("Arial", 13, "bold"), text_color=SPOTIFY_WHITE)
         self.current_label.pack(pady=(10, 5))
+        
+        # Seekbar with time labels
+        seekbar_frame = ctk.CTkFrame(self.frame_control, fg_color="transparent")
+        seekbar_frame.pack(fill="x", padx=20, pady=(0, 5))
+        
+        self.time_current = ctk.CTkLabel(seekbar_frame, text="0:00", font=("Arial", 10),
+                                        text_color=SPOTIFY_LIGHT_GRAY)
+        self.time_current.pack(side="left", padx=5)
+        
+        self.seekbar = ctk.CTkSlider(seekbar_frame, from_=0, to=100, 
+                                    command=lambda v: self.seek_song(controller, v),
+                                    fg_color=SPOTIFY_GRAY, progress_color=SPOTIFY_GREEN,
+                                    button_color=SPOTIFY_GREEN, button_hover_color="#1ed760")
+        self.seekbar.pack(side="left", fill="x", expand=True, padx=5)
+        self.seekbar.set(0)
+        
+        self.time_total = ctk.CTkLabel(seekbar_frame, text="0:00", font=("Arial", 10),
+                                      text_color=SPOTIFY_LIGHT_GRAY)
+        self.time_total.pack(side="left", padx=5)
         
         # Control Buttons
         control_btns = ctk.CTkFrame(self.frame_control, fg_color="transparent")
@@ -195,6 +213,31 @@ class PageUser(ctk.CTkFrame):
                             next_song = random.choice(similar_songs)
                             msg = self.controller.player.play_song(next_song)
                             self.current_label.configure(text=msg)
+                            self.seekbar.set(0)
+            
+            if self.controller.player.is_playing and self.controller.player.current_song:
+                current_pos = pygame.mixer.music.get_pos() / 1000.0
+                duration_str = self.controller.player.current_song.duration
+                try:
+                    parts = duration_str.split(":")
+                    if len(parts) == 2:
+                        total_seconds = int(parts[0]) * 60 + int(parts[1])
+                    else:
+                        total_seconds = 180
+                    
+                    if total_seconds > 0 and current_pos >= 0:
+                        progress = (current_pos / total_seconds) * 100
+                        self.seekbar.set(min(progress, 100))
+                    
+                    mins_curr = int(current_pos // 60)
+                    secs_curr = int(current_pos % 60)
+                    self.time_current.configure(text=f"{mins_curr}:{secs_curr:02d}")
+                    
+                    mins_total = int(total_seconds // 60)
+                    secs_total = int(total_seconds % 60)
+                    self.time_total.configure(text=f"{mins_total}:{secs_total:02d}")
+                except:
+                    pass
         except:
             pass
         self.after(100, self.check_song_ended)
@@ -429,3 +472,18 @@ class PageUser(ctk.CTkFrame):
     def update_playlist_dropdown(self, controller):
         names = [p.name for p in controller.player.playlist_manager.playlists]
         self.playlist_dropdown.configure(values=names if names else ["My Playlist"])
+    
+    def seek_song(self, controller, value):
+        if controller.player.current_song:
+            duration_str = controller.player.current_song.duration
+            try:
+                parts = duration_str.split(":")
+                if len(parts) == 2:
+                    total_seconds = int(parts[0]) * 60 + int(parts[1])
+                else:
+                    total_seconds = 180
+                
+                seek_position = (float(value) / 100) * total_seconds
+                controller.player.seek(seek_position)
+            except:
+                pass

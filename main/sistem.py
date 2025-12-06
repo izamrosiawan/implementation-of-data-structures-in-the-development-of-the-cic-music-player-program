@@ -160,14 +160,22 @@ class MusicPlayer:
         
         self.current_song = song_node
         
-        if song_node.file_path and os.path.exists(song_node.file_path):
+        if song_node.file_path:
             try:
-                pygame.mixer.music.load(song_node.file_path)
+                if song_node.file_path.startswith('http://') or song_node.file_path.startswith('https://'):
+                    pygame.mixer.music.load(song_node.file_path)
+                elif os.path.exists(song_node.file_path):
+                    pygame.mixer.music.load(song_node.file_path)
+                else:
+                    self.is_playing = False
+                    return f"▶️ Memutar: {song_node.title} (file tidak ditemukan)"
+                
                 pygame.mixer.music.play()
                 self.is_playing = True
                 self.is_paused = False
                 return f"🎵 Memutar: {song_node.title}"
             except Exception as e:
+                self.is_playing = False
                 return f"⚠️ Error memutar {song_node.title}: {str(e)}"
         else:
             self.is_playing = False
@@ -202,4 +210,18 @@ class MusicPlayer:
 
     def get_is_playing(self):
         return pygame.mixer.music.get_busy() and not self.is_paused
+    
+    def seek(self, position_seconds):
+        if self.is_playing or self.is_paused:
+            try:
+                pygame.mixer.music.set_pos(position_seconds)
+                return True
+            except:
+                return False
+        return False
+    
+    def get_pos(self):
+        if self.is_playing or self.is_paused:
+            return pygame.mixer.music.get_pos() / 1000.0
+        return 0
 
