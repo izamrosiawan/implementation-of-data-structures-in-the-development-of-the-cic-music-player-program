@@ -2,7 +2,7 @@ import os
 
 def load_dummy_data(player):
     
-    music_folder = r"C:\Users\LENOVO\Downloads\music-tubes"
+    music_folder = r"C:\Users\LENOVO\OneDrive\Office\GitHub\tugas-besar-music-player-py\main\music-tubes"
     
     taylor = player.library.add_artist("Taylor Swift")
     album_1989 = taylor.add_album("1989", 2014)
