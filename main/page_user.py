@@ -2,70 +2,70 @@ import customtkinter as ctk
 from tkinter import messagebox
 import time
 
-SPOTIFY_BLACK = "#121212"
-SPOTIFY_DARK_GRAY = "#181818"
-SPOTIFY_GRAY = "#282828"
-SPOTIFY_GREEN = "#1DB954"
-SPOTIFY_WHITE = "#FFFFFF"
-SPOTIFY_LIGHT_GRAY = "#B3B3B3"
+CIC_BLACK = "#121212"
+CIC_DARK_GRAY = "#181818"
+CIC_GRAY = "#282828"
+CIC_GREEN = "#1DB954"
+CIC_WHITE = "#FFFFFF"
+CIC_LIGHT_GRAY = "#B3B3B3"
 
 class PageUser(ctk.CTkFrame):
     def __init__(self, parent, controller):
-        super().__init__(parent, fg_color=SPOTIFY_BLACK)
+        super().__init__(parent, fg_color=CIC_BLACK)
         
-        header = ctk.CTkFrame(self, height=60, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
+        header = ctk.CTkFrame(self, height=60, fg_color=CIC_DARK_GRAY, corner_radius=0)
         header.pack(fill="x", padx=0, pady=0)
         
         ctk.CTkButton(header, text="← Kembali", width=100, height=35, corner_radius=20,
                     command=lambda: controller.show_frame("PageMenu"), 
-                    fg_color=SPOTIFY_GRAY, hover_color="#3E3E3E").place(x=15, y=12)
+                    fg_color=CIC_GRAY, hover_color="#3E3E3E").place(x=15, y=12)
 
         self.search_entry = ctk.CTkEntry(header, width=400, height=35, corner_radius=20,
                                         placeholder_text="🔍 Cari lagu, artis, atau album...",
-                                        fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE)
+                                        fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE)
         self.search_entry.place(x=400, y=12)
         self.search_entry.bind("<Return>", lambda e: self.search_songs(controller))
         
-        content = ctk.CTkFrame(self, fg_color=SPOTIFY_BLACK)
+        content = ctk.CTkFrame(self, fg_color=CIC_BLACK)
         content.pack(fill="both", expand=True, padx=15, pady=(10, 10))
         
         content.grid_columnconfigure(0, weight=1)
         content.grid_columnconfigure(1, weight=1)
         content.grid_columnconfigure(2, weight=1)
         
-        self.frame_playlist = ctk.CTkFrame(content, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_playlist = ctk.CTkFrame(content, corner_radius=15, fg_color=CIC_DARK_GRAY)
         self.frame_playlist.grid(row=0, column=0, sticky="nsew", padx=(0, 5))
         
-        playlist_header = ctk.CTkFrame(self.frame_playlist, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
+        playlist_header = ctk.CTkFrame(self.frame_playlist, height=50, fg_color=CIC_GRAY, corner_radius=10)
         playlist_header.pack(fill="x", padx=10, pady=10)
         ctk.CTkLabel(playlist_header, text="📋 Daftar Playlist", font=("Arial", 16, "bold"), 
-                    text_color=SPOTIFY_WHITE).pack(side="left", padx=15, pady=10)
+                    text_color=CIC_WHITE).pack(side="left", padx=15, pady=10)
         
-        self.playlist_list_box = ctk.CTkTextbox(self.frame_playlist, fg_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE, border_color=SPOTIFY_DARK_GRAY,
+        self.playlist_list_box = ctk.CTkTextbox(self.frame_playlist, fg_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE, border_color=CIC_DARK_GRAY,
                                         corner_radius=10, font=("Consolas", 11))
         self.playlist_list_box.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         self.playlist_list_box.bind("<Button-1>", lambda e: self.on_playlist_click(controller, e))
         self.playlist_items = []
         self.refresh_playlist_list(controller)
 
-        self.frame_library = ctk.CTkFrame(content, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_library = ctk.CTkFrame(content, corner_radius=15, fg_color=CIC_DARK_GRAY)
         self.frame_library.grid(row=0, column=1, sticky="nsew", padx=5)
         
-        library_header = ctk.CTkFrame(self.frame_library, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
+        library_header = ctk.CTkFrame(self.frame_library, height=50, fg_color=CIC_GRAY, corner_radius=10)
         library_header.pack(fill="x", padx=10, pady=10)
         ctk.CTkLabel(library_header, text="🎵 Daftar Lagu", font=("Arial", 16, "bold"), 
-                    text_color=SPOTIFY_WHITE).pack(side="left", padx=15, pady=10)
+                    text_color=CIC_WHITE).pack(side="left", padx=15, pady=10)
         
         ctk.CTkButton(library_header, text="🔄", width=35, height=28, corner_radius=8,
                     command=lambda: self.refresh_library(controller), 
-                    fg_color=SPOTIFY_GREEN, hover_color="#1ed760",
+                    fg_color=CIC_GREEN, hover_color="#1ed760",
                     font=("Arial", 14),
                     cursor="hand2").pack(side="right", padx=10)
         
-        self.library_box = ctk.CTkTextbox(self.frame_library, fg_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE, border_color=SPOTIFY_DARK_GRAY,
+        self.library_box = ctk.CTkTextbox(self.frame_library, fg_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE, border_color=CIC_DARK_GRAY,
                                         corner_radius=10, font=("Consolas", 11))
         self.library_box.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         self.library_box.bind("<Button-1>", lambda e: self.on_library_click(controller, e))
@@ -74,13 +74,13 @@ class PageUser(ctk.CTkFrame):
         self.current_playlist_mode = None  # Track jika sedang di mode playlist
         self.refresh_library(controller)
 
-        self.frame_playlist_action = ctk.CTkFrame(content, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_playlist_action = ctk.CTkFrame(content, corner_radius=15, fg_color=CIC_DARK_GRAY)
         self.frame_playlist_action.grid(row=0, column=2, sticky="nsew", padx=(5, 0))
         
-        action_header = ctk.CTkFrame(self.frame_playlist_action, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
+        action_header = ctk.CTkFrame(self.frame_playlist_action, height=50, fg_color=CIC_GRAY, corner_radius=10)
         action_header.pack(fill="x", padx=10, pady=10)
         ctk.CTkLabel(action_header, text="⚡ Kelola Playlist", font=("Arial", 16, "bold"), 
-                    text_color=SPOTIFY_WHITE).pack(side="left", padx=15, pady=10)
+                    text_color=CIC_WHITE).pack(side="left", padx=15, pady=10)
         
         action_scrollable = ctk.CTkScrollableFrame(self.frame_playlist_action, fg_color="transparent", 
                                                     height=450)
@@ -89,49 +89,49 @@ class PageUser(ctk.CTkFrame):
         action_content = action_scrollable
         
         ctk.CTkLabel(action_content, text="📝 BUAT PLAYLIST BARU", font=("Arial", 11, "bold"), 
-                    text_color=SPOTIFY_GREEN).pack(anchor="w", pady=(5, 5))
+                    text_color=CIC_GREEN).pack(anchor="w", pady=(5, 5))
         
         self.new_playlist_entry = ctk.CTkEntry(action_content, height=32, corner_radius=10,
                                         placeholder_text="Nama playlist baru...",
-                                        fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE)
+                                        fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE)
         self.new_playlist_entry.pack(fill="x", pady=(0, 5))
         
         ctk.CTkButton(action_content, text="➕ Buat Playlist", height=35, corner_radius=10,
                     command=lambda: self.create_user_playlist(controller), 
-                    fg_color=SPOTIFY_GREEN, hover_color="#1ed760", 
+                    fg_color=CIC_GREEN, hover_color="#1ed760", 
                     font=("Arial", 11, "bold")).pack(fill="x", pady=(0, 10))
         
         ctk.CTkLabel(action_content, text="━" * 25, 
-                    text_color=SPOTIFY_GRAY).pack(pady=5)
+                    text_color=CIC_GRAY).pack(pady=5)
         
         ctk.CTkLabel(action_content, text="🎵 KELOLA PLAYLIST", font=("Arial", 11, "bold"), 
-                    text_color=SPOTIFY_GREEN).pack(anchor="w", pady=(5, 5))
+                    text_color=CIC_GREEN).pack(anchor="w", pady=(5, 5))
         
         ctk.CTkLabel(action_content, text="Pilih Playlist:", font=("Arial", 10), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(0, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(0, 2))
         
         self.user_playlist_dropdown = ctk.CTkOptionMenu(
             action_content, 
             values=["My Playlist"],
-            fg_color=SPOTIFY_GRAY, 
-            button_color=SPOTIFY_GREEN,
+            fg_color=CIC_GRAY, 
+            button_color=CIC_GREEN,
             button_hover_color="#1ed760",
-            dropdown_fg_color=SPOTIFY_GRAY,
+            dropdown_fg_color=CIC_GRAY,
             font=("Arial", 10))
         self.user_playlist_dropdown.pack(fill="x", pady=(0, 8))
         
         ctk.CTkLabel(action_content, text="Nama Lagu:", font=("Arial", 10), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(0, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(0, 2))
         self.song_name_entry = ctk.CTkEntry(action_content, height=32, corner_radius=10,
                                         placeholder_text="Cari nama lagu untuk ditambah...",
-                                        fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE)
+                                        fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE)
         self.song_name_entry.pack(fill="x", pady=(0, 5))
         
         ctk.CTkButton(action_content, text="➕ Tambah Lagu", height=35, corner_radius=10,
                     command=lambda: self.add_to_user_playlist(controller), 
-                    fg_color=SPOTIFY_GREEN, hover_color="#1ed760", 
+                    fg_color=CIC_GREEN, hover_color="#1ed760", 
                     font=("Arial", 10, "bold")).pack(fill="x", pady=2)
         
         ctk.CTkButton(action_content, text="➖ Hapus Lagu", height=35, corner_radius=10,
@@ -145,14 +145,14 @@ class PageUser(ctk.CTkFrame):
                     font=("Arial", 10, "bold")).pack(fill="x", pady=(2, 5))
         
         self.status_label = ctk.CTkLabel(action_content, text="", font=("Arial", 9),
-                                        text_color=SPOTIFY_GREEN, wraplength=280)
+                                        text_color=CIC_GREEN, wraplength=280)
         self.status_label.pack(pady=5)
 
-        self.frame_control = ctk.CTkFrame(self, height=90, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
+        self.frame_control = ctk.CTkFrame(self, height=90, fg_color=CIC_DARK_GRAY, corner_radius=0)
         self.frame_control.pack(side="bottom", fill="x", padx=0, pady=0)
         
         self.seekbar = ctk.CTkProgressBar(self.frame_control, height=4,
-                                         progress_color=SPOTIFY_WHITE, fg_color="#4d4d4d")
+                                         progress_color=CIC_WHITE, fg_color="#4d4d4d")
         self.seekbar.set(0)
         self.seekbar.pack(fill="x", padx=20, pady=0)
         
@@ -164,12 +164,12 @@ class PageUser(ctk.CTkFrame):
         left_section.pack_propagate(False)
         
         self.current_label = ctk.CTkLabel(left_section, text="", 
-                                        font=("Arial", 13, "bold"), text_color=SPOTIFY_WHITE, 
+                                        font=("Arial", 13, "bold"), text_color=CIC_WHITE, 
                                         anchor="w")
         self.current_label.pack(anchor="w", side="top")
         
         self.artist_label = ctk.CTkLabel(left_section, text="", 
-                                        font=("Arial", 11), text_color=SPOTIFY_LIGHT_GRAY, 
+                                        font=("Arial", 11), text_color=CIC_LIGHT_GRAY, 
                                         anchor="w")
         self.artist_label.pack(anchor="w", side="top")
         
@@ -181,19 +181,19 @@ class PageUser(ctk.CTkFrame):
         
         ctk.CTkButton(btn_row, text="⏮", width=32, height=32, corner_radius=16,
                     command=lambda: self.previous_song(controller), 
-                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
-                    text_color=SPOTIFY_LIGHT_GRAY, font=("Arial", 16)).pack(side="left", padx=8)
+                    fg_color="transparent", hover_color=CIC_GRAY,
+                    text_color=CIC_LIGHT_GRAY, font=("Arial", 16)).pack(side="left", padx=8)
         
         self.play_pause_btn = ctk.CTkButton(btn_row, text="▶", width=38, height=38, 
                     corner_radius=19, command=lambda: self.toggle_play_pause(controller), 
-                    fg_color=SPOTIFY_WHITE, hover_color="#e0e0e0",
-                    text_color=SPOTIFY_BLACK, font=("Arial", 15, "bold"))
+                    fg_color=CIC_WHITE, hover_color="#e0e0e0",
+                    text_color=CIC_BLACK, font=("Arial", 15, "bold"))
         self.play_pause_btn.pack(side="left", padx=8)
         
         ctk.CTkButton(btn_row, text="⏭", width=32, height=32, corner_radius=16,
                     command=lambda: self.next_song(controller), 
-                    fg_color="transparent", hover_color=SPOTIFY_GRAY,
-                    text_color=SPOTIFY_LIGHT_GRAY, font=("Arial", 16)).pack(side="left", padx=8)
+                    fg_color="transparent", hover_color=CIC_GRAY,
+                    text_color=CIC_LIGHT_GRAY, font=("Arial", 16)).pack(side="left", padx=8)
         
         self.is_playing_state = False
         
@@ -201,14 +201,14 @@ class PageUser(ctk.CTkFrame):
         timer_row.pack(anchor="center")
         
         self.time_current = ctk.CTkLabel(timer_row, text="0:00", 
-                                        font=("Arial", 10), text_color=SPOTIFY_LIGHT_GRAY)
+                                        font=("Arial", 10), text_color=CIC_LIGHT_GRAY)
         self.time_current.pack(side="left", padx=5)
         
         ctk.CTkLabel(timer_row, text="/", 
-                    font=("Arial", 10), text_color=SPOTIFY_LIGHT_GRAY).pack(side="left")
+                    font=("Arial", 10), text_color=CIC_LIGHT_GRAY).pack(side="left")
         
         self.time_total = ctk.CTkLabel(timer_row, text="0:00", 
-                                    font=("Arial", 10), text_color=SPOTIFY_LIGHT_GRAY)
+                                    font=("Arial", 10), text_color=CIC_LIGHT_GRAY)
         self.time_total.pack(side="left", padx=5)
         
         right_section = ctk.CTkFrame(main_row, fg_color="transparent", width=350)
@@ -222,9 +222,9 @@ class PageUser(ctk.CTkFrame):
         self.volume_slider = ctk.CTkSlider(
             volume_container, from_=0, to=100, width=100,
             command=lambda v: self.change_volume(controller, v),
-            button_color=SPOTIFY_WHITE, 
+            button_color=CIC_WHITE, 
             button_hover_color="#e0e0e0",
-            progress_color=SPOTIFY_WHITE,
+            progress_color=CIC_WHITE,
             fg_color="#4d4d4d",
             height=4, button_length=12)
         self.volume_slider.set(70)
@@ -728,12 +728,12 @@ class PageUser(ctk.CTkFrame):
             msg = controller.player.resume_song()
         else:
             msg = controller.player.pause_song()
-        self.status_label.configure(text=msg, text_color=SPOTIFY_GREEN)
+        self.status_label.configure(text=msg, text_color=CIC_GREEN)
 
     def stop_music(self, controller):
         msg = controller.player.stop_song()
         self.current_label.configure(text="⏹️ Musik dihentikan")
-        self.status_label.configure(text=msg, text_color=SPOTIFY_GREEN)
+        self.status_label.configure(text=msg, text_color=CIC_GREEN)
 
     def change_volume(self, controller, value):
         volume = float(value) / 100
@@ -761,7 +761,7 @@ class PageUser(ctk.CTkFrame):
             self.refresh_playlist(controller)
             self.status_label.configure(
                 text=f"'{found_song.title}' ditambahkan!", 
-                text_color=SPOTIFY_GREEN)
+                text_color=CIC_GREEN)
             self.song_name_old_entry.delete(0, 'end')
         else:
             self.status_label.configure(
@@ -790,7 +790,7 @@ class PageUser(ctk.CTkFrame):
             self.refresh_playlist(controller)
             self.status_label.configure(
                 text=f"'{song_title}' dihapus dari playlist!", 
-                text_color=SPOTIFY_GREEN)
+                text_color=CIC_GREEN)
             self.song_name_old_entry.delete(0, 'end')
             return
         
@@ -807,7 +807,7 @@ class PageUser(ctk.CTkFrame):
                 self.refresh_playlist(controller)
                 self.status_label.configure(
                     text=f"'{song_title}' dihapus dari playlist!", 
-                    text_color=SPOTIFY_GREEN)
+                    text_color=CIC_GREEN)
                 self.song_name_old_entry.delete(0, 'end')
                 return
             curr = curr.next
@@ -819,7 +819,7 @@ class PageUser(ctk.CTkFrame):
         controller.player.playlist.head = None
         controller.player.playlist.tail = None
         self.refresh_playlist(controller)
-        self.status_label.configure(text="Playlist dikosongkan!", text_color=SPOTIFY_GREEN)
+        self.status_label.configure(text="Playlist dikosongkan!", text_color=CIC_GREEN)
 
     def refresh_playlist(self, controller):
         self.playlist_box.configure(state="normal")

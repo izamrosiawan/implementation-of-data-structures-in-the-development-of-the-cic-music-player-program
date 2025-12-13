@@ -1,66 +1,66 @@
 import customtkinter as ctk
 
-SPOTIFY_BLACK = "#121212"
-SPOTIFY_DARK_GRAY = "#181818"
-SPOTIFY_GRAY = "#282828"
-SPOTIFY_GREEN = "#1DB954"
-SPOTIFY_WHITE = "#FFFFFF"
-SPOTIFY_LIGHT_GRAY = "#B3B3B3"
+CIC_BLACK = "#121212"
+CIC_DARK_GRAY = "#181818"
+CIC_GRAY = "#282828"
+CIC_GREEN = "#1DB954"
+CIC_WHITE = "#FFFFFF"
+CIC_LIGHT_GRAY = "#B3B3B3"
 
 class PageAdmin(ctk.CTkFrame):
     def __init__(self, parent, controller):
-        super().__init__(parent, fg_color=SPOTIFY_BLACK)
+        super().__init__(parent, fg_color=CIC_BLACK)
         
-        header = ctk.CTkFrame(self, height=60, fg_color=SPOTIFY_DARK_GRAY, corner_radius=0)
+        header = ctk.CTkFrame(self, height=60, fg_color=CIC_DARK_GRAY, corner_radius=0)
         header.pack(fill="x", padx=0, pady=0)
         
         ctk.CTkButton(header, text="← Kembali", width=100, height=35, corner_radius=20,
                     command=lambda: controller.show_frame("PageMenu"), 
-                    fg_color=SPOTIFY_GRAY, hover_color="#3E3E3E").place(x=15, y=12)
+                    fg_color=CIC_GRAY, hover_color="#3E3E3E").place(x=15, y=12)
         
         ctk.CTkLabel(header, text="⚙️ Admin Panel - Kelola Musik", font=("Arial", 18, "bold"),
-                    text_color=SPOTIFY_WHITE).place(x=450, y=15)
+                    text_color=CIC_WHITE).place(x=450, y=15)
         
-        content = ctk.CTkFrame(self, fg_color=SPOTIFY_BLACK)
+        content = ctk.CTkFrame(self, fg_color=CIC_BLACK)
         content.pack(fill="both", expand=True, padx=15, pady=(10, 20))
 
-        self.frame_library = ctk.CTkFrame(content, width=720, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_library = ctk.CTkFrame(content, width=720, corner_radius=15, fg_color=CIC_DARK_GRAY)
         self.frame_library.pack(side="left", fill="both", expand=True, padx=(0, 8))
         
-        library_header = ctk.CTkFrame(self.frame_library, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
+        library_header = ctk.CTkFrame(self.frame_library, height=50, fg_color=CIC_GRAY, corner_radius=10)
         library_header.pack(fill="x", padx=10, pady=10)
         ctk.CTkLabel(library_header, text="📚 Library Lagu", font=("Arial", 16, "bold"), 
-                    text_color=SPOTIFY_WHITE).pack(side="left", padx=15, pady=10)
+                    text_color=CIC_WHITE).pack(side="left", padx=15, pady=10)
         
-        self.admin_library_box = ctk.CTkTextbox(self.frame_library, fg_color=SPOTIFY_GRAY, 
-                                            text_color=SPOTIFY_WHITE, border_color=SPOTIFY_DARK_GRAY,
+        self.admin_library_box = ctk.CTkTextbox(self.frame_library, fg_color=CIC_GRAY, 
+                                            text_color=CIC_WHITE, border_color=CIC_DARK_GRAY,
                                             corner_radius=10, font=("Consolas", 11))
         self.admin_library_box.pack(fill="both", expand=True, padx=10, pady=(0, 10))
         self.refresh_admin_library(controller)
 
-        self.frame_detail = ctk.CTkFrame(content, width=440, corner_radius=15, fg_color=SPOTIFY_DARK_GRAY)
+        self.frame_detail = ctk.CTkFrame(content, width=440, corner_radius=15, fg_color=CIC_DARK_GRAY)
         self.frame_detail.pack(side="left", fill="both", expand=True, padx=(8, 0))
         
-        form_header = ctk.CTkFrame(self.frame_detail, height=50, fg_color=SPOTIFY_GRAY, corner_radius=10)
+        form_header = ctk.CTkFrame(self.frame_detail, height=50, fg_color=CIC_GRAY, corner_radius=10)
         form_header.pack(fill="x", padx=10, pady=10)
         ctk.CTkLabel(form_header, text="✏️ Form Tambah/Edit Lagu", font=("Arial", 16, "bold"), 
-                    text_color=SPOTIFY_WHITE).pack(side="left", padx=15, pady=10)
+                    text_color=CIC_WHITE).pack(side="left", padx=15, pady=10)
         
         form_content = ctk.CTkFrame(self.frame_detail, fg_color="transparent")
         form_content.pack(fill="both", expand=True, padx=15, pady=10)
         
         ctk.CTkLabel(form_content, text="Artis:", font=("Arial", 12, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         self.artist_entry = ctk.CTkEntry(form_content, height=35, corner_radius=10,
-                                        fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE, placeholder_text="Nama artis...")
+                                        fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE, placeholder_text="Nama artis...")
         self.artist_entry.pack(fill="x", pady=(0, 10))
         
         ctk.CTkLabel(form_content, text="Genre:", font=("Arial", 12, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         self.genre_entry = ctk.CTkEntry(form_content, height=35, corner_radius=10,
-                                    fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                    text_color=SPOTIFY_WHITE, 
+                                    fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                    text_color=CIC_WHITE, 
                                     placeholder_text="Pop, Rock, R&B, Alternative, Electronic, Classic...")
         self.genre_entry.pack(fill="x", pady=(0, 10))
         
@@ -70,43 +70,43 @@ class PageAdmin(ctk.CTkFrame):
         id_frame = ctk.CTkFrame(row1, fg_color="transparent")
         id_frame.pack(side="left", fill="x", expand=True, padx=(0, 5))
         ctk.CTkLabel(id_frame, text="Nama Lagu Lama (untuk update/delete):", font=("Arial", 10, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         self.id_entry = ctk.CTkEntry(id_frame, height=35, corner_radius=10,
-                                    fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                    text_color=SPOTIFY_WHITE, placeholder_text="Cari nama lagu...")
+                                    fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                    text_color=CIC_WHITE, placeholder_text="Cari nama lagu...")
         self.id_entry.pack(fill="x")
         
         duration_frame = ctk.CTkFrame(row1, fg_color="transparent")
         duration_frame.pack(side="left", fill="x", expand=True, padx=(5, 0))
         ctk.CTkLabel(duration_frame, text="Durasi:", font=("Arial", 12, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         self.duration_entry = ctk.CTkEntry(duration_frame, height=35, corner_radius=10,
-                                        fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                        text_color=SPOTIFY_WHITE, placeholder_text="mm:ss")
+                                        fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                        text_color=CIC_WHITE, placeholder_text="mm:ss")
         self.duration_entry.pack(fill="x")
         
         ctk.CTkLabel(form_content, text="Judul Lagu:", font=("Arial", 12, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         self.title_entry = ctk.CTkEntry(form_content, height=35, corner_radius=10,
-                                    fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                    text_color=SPOTIFY_WHITE, placeholder_text="Judul lagu...")
+                                    fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                    text_color=CIC_WHITE, placeholder_text="Judul lagu...")
         self.title_entry.pack(fill="x", pady=(0, 10))
         
         ctk.CTkLabel(form_content, text="File Audio (opsional):", font=("Arial", 12, "bold"), 
-                    text_color=SPOTIFY_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
+                    text_color=CIC_LIGHT_GRAY).pack(anchor="w", pady=(5, 2))
         
         file_frame = ctk.CTkFrame(form_content, fg_color="transparent")
         file_frame.pack(fill="x", pady=(0, 10))
         
         self.file_path_entry = ctk.CTkEntry(file_frame, height=35, corner_radius=10,
-                                    fg_color=SPOTIFY_GRAY, border_color=SPOTIFY_GRAY, 
-                                    text_color=SPOTIFY_WHITE, 
+                                    fg_color=CIC_GRAY, border_color=CIC_GRAY, 
+                                    text_color=CIC_WHITE, 
                                     placeholder_text="Pilih file MP3...")
         self.file_path_entry.pack(side="left", fill="x", expand=True, padx=(0, 5))
         
         ctk.CTkButton(file_frame, text="📁 Pilih File", width=120, height=35, corner_radius=10,
                     command=self.browse_file, 
-                    fg_color=SPOTIFY_GRAY, hover_color="#3E3E3E",
+                    fg_color=CIC_GRAY, hover_color="#3E3E3E",
                     font=("Arial", 12, "bold")).pack(side="left")
         
         self.error_label = ctk.CTkLabel(form_content, text="", font=("Arial", 11, "bold"),
@@ -118,12 +118,12 @@ class PageAdmin(ctk.CTkFrame):
         
         ctk.CTkButton(btn_frame, text="💾 Simpan", height=45, corner_radius=10,
                     command=lambda: self.save_song_from_form(controller), 
-                    fg_color=SPOTIFY_GREEN, hover_color="#1ed760",
+                    fg_color=CIC_GREEN, hover_color="#1ed760",
                     font=("Arial", 14, "bold")).pack(side="left", fill="x", expand=True, padx=(0, 5))
         
         ctk.CTkButton(btn_frame, text="✏️ Perbarui", height=45, corner_radius=10,
                     command=lambda: self.update_song(controller), 
-                    fg_color=SPOTIFY_GRAY, hover_color="#3E3E3E",
+                    fg_color=CIC_GRAY, hover_color="#3E3E3E",
                     font=("Arial", 14, "bold")).pack(side="left", fill="x", expand=True, padx=5)
         
         ctk.CTkButton(btn_frame, text="🗑️ Hapus", height=45, corner_radius=10,
@@ -217,7 +217,7 @@ class PageAdmin(ctk.CTkFrame):
         controller.frames["PageUser"].refresh_library(controller)
         self.refresh_admin_library(controller)
         self.clear_form()
-        self.error_label.configure(text="Lagu berhasil ditambahkan!", text_color=SPOTIFY_GREEN)
+        self.error_label.configure(text="Lagu berhasil ditambahkan!", text_color=CIC_GREEN)
 
     def delete_song(self, controller):
         song_name = self.title_entry.get().strip().lower()
@@ -253,7 +253,7 @@ class PageAdmin(ctk.CTkFrame):
             self.clear_form()
             self.error_label.configure(
                 text=f"Lagu '{deleted_title}' berhasil dihapus!", 
-                text_color=SPOTIFY_GREEN)
+                text_color=CIC_GREEN)
         else:
             self.error_label.configure(
                 text=f"Lagu '{song_name}' tidak ditemukan!", 
@@ -294,7 +294,7 @@ class PageAdmin(ctk.CTkFrame):
             self.clear_form()
             self.error_label.configure(
                 text=f"Lagu '{new_title}' berhasil diperbarui!", 
-                text_color=SPOTIFY_GREEN)
+                text_color=CIC_GREEN)
         else:
             self.error_label.configure(
                 text=f"Lagu '{old_title}' tidak ditemukan!", 
