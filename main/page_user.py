@@ -152,7 +152,7 @@ class PageUser(ctk.CTkFrame):
         self.frame_control.pack(side="bottom", fill="x", padx=0, pady=0)
         
         self.seekbar = ctk.CTkProgressBar(self.frame_control, height=4,
-                                         progress_color=CIC_WHITE, fg_color="#4d4d4d")
+                                        progress_color=CIC_WHITE, fg_color="#4d4d4d")
         self.seekbar.set(0)
         self.seekbar.pack(fill="x", padx=20, pady=0)
         
