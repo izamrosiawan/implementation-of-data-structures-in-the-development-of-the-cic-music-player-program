@@ -181,10 +181,6 @@ class PageAdmin(ctk.CTkFrame):
             return self.error_label.configure(text="Judul lagu wajib diisi!")
         if not duration:
             return self.error_label.configure(text="Durasi wajib diisi!")
-        try:
-            song_id = int(self.id_entry.get().strip()) if self.id_entry.get().strip() else None
-        except ValueError:
-            return self.error_label.configure(text="ID harus berupa angka!")
 
         lib = controller.player.library
         found_artist = None
@@ -197,20 +193,20 @@ class PageAdmin(ctk.CTkFrame):
         if not found_artist:
             found_artist = lib.add_artist(artist_name)
 
-        if song_id is None:
-            max_id = 0
-            a = lib.artists_head
-            while a:
-                s = a.songs_head
-                while s:
-                    try:
-                        if int(s.id) > max_id:
-                            max_id = int(s.id)
-                    except Exception:
-                        pass
-                    s = s.next
-                a = a.next
-            song_id = max_id + 1
+        # Auto-generate ID untuk lagu baru
+        max_id = 0
+        a = lib.artists_head
+        while a:
+            s = a.songs_head
+            while s:
+                try:
+                    if int(s.id) > max_id:
+                        max_id = int(s.id)
+                except Exception:
+                    pass
+                s = s.next
+            a = a.next
+        song_id = max_id + 1
 
         file_path = self.file_path_entry.get().strip() or None
         found_artist.add_song(song_id, title, duration, file_path, genre_name)

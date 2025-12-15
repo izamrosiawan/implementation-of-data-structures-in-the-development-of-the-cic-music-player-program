@@ -847,6 +847,7 @@ class PageUser(ctk.CTkFrame):
             current_song = self.library_items[self.selected_index]
             current_artist = self.get_artist_name(controller, current_song)
             
+            # Cari lagu berikutnya dari artis yang sama
             next_index = None
             for i in range(self.selected_index + 1, len(self.library_items)):
                 song = self.library_items[i]
@@ -854,6 +855,7 @@ class PageUser(ctk.CTkFrame):
                     next_index = i
                     break
             
+            # Jika tidak ada lagu berikutnya dari artis yang sama, cari dari awal
             if next_index is None:
                 for i in range(0, self.selected_index):
                     song = self.library_items[i]
@@ -861,8 +863,10 @@ class PageUser(ctk.CTkFrame):
                         next_index = i
                         break
             
-            if next_index is None:
-                next_index = self.selected_index
+            # Jika masih tidak ada (artis hanya punya 1 lagu), pindah ke lagu berikutnya (artis lain)
+            if next_index is None or next_index == self.selected_index:
+                next_index = (self.selected_index + 1) % len(self.library_items)
+                print(f"[NEXT] Artist only has 1 song, moving to next artist")
             
             self.selected_index = next_index
         
