@@ -440,7 +440,7 @@ class PageUser(ctk.CTkFrame):
         while art:
             curr_song = art.songs_head
             while curr_song:
-                if curr_song.id == song.id:
+                if str(curr_song.id) == str(song.id):
                     return art.artist_name
                 curr_song = curr_song.next
             art = art.next
@@ -601,14 +601,16 @@ class PageUser(ctk.CTkFrame):
         content = self.library_box.get("1.0", "end")
         lines = content.split("\n")
         
-        current_song_id = controller.player.current_song.id
+        current_song_id = str(controller.player.current_song.id)
         
         new_content = []
         for line in lines:
             if line.strip():
                 clean_line = line.replace("🔊 ", "   ")
                 
-                if f"{current_song_id}." in clean_line:
+                # Check exact match dengan word boundary
+                import re
+                if re.search(rf"\b{re.escape(current_song_id)}\.\s", clean_line):
                     clean_line = "🔊 " + clean_line[3:]
                 
                 new_content.append(clean_line)
@@ -890,7 +892,7 @@ class PageUser(ctk.CTkFrame):
             self.play_pause_btn.configure(text="⏸")
             
             controller.player.start_time = time.time()
-            controller.player.paused_position = 0
+            controller.player.pause_time = 0
             
             print(f"[NEXT] Playing: {song.title} ({artist_name}) [index: {self.selected_index}/{len(self.library_items)-1}]")
             
